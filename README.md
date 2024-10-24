@@ -1,4 +1,4 @@
-# 🧹 ScanR
+# 🕵🏻 ScanR
 
 ```text
  ____                       ____
@@ -9,7 +9,7 @@
 
 ```
 
-🧹 ScanR: A lightweight, fast, and configurable port scanner built in Rust for reliable multi-platform network scanning.
+🕵🏻 ScanR: A lightweight, fast, and configurable port scanner built in Rust for reliable multi-platform network scanning.
 
 ## 🚀 Installation
 
