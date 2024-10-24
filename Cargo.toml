@@ -1,6 +1,6 @@
 [package]
 name = "scanr"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Triet Trinh <contact@trinhminhtriet.com>"]
 description = "ScanR: A lightweight, fast, and configurable port scanner built in Rust for reliable multi-platform network scanning."

@@ -53,23 +53,23 @@ Available command line arguments
 
 ```shell
 # Scan github.com using the default settings
-havn github.com
+scanr github.com
 
 # Scan default address [127.0.0.1], all ports [1-65535],
 # 2048 concurrent requests, 500ms timeout, 0 retries, IPv4
-havn -a -c 2048 -t 500 -r 0
+scanr -a -c 2048 -t 500 -r 0
 
 # Scan www.google.com, ports 10-600,
 # 500 concurrent requests, 3000ms timeout, default retries [1], IPv4
-havn www.google.com -p 10-600 -c 500 -t 3000
+scanr www.google.com -p 10-600 -c 500 -t 3000
 
 # Scan www.digitalocean.com, ports 1-100
 # default concurrent requests[1000], 1000ms timeout, and use IPv6 address
-havn www.digitalocean.com -p -100 -t 1000 -6
+scanr www.digitalocean.com -p -100 -t 1000 -6
 
 # Scan www.bbc.com, port 443 only
 # default concurrent requests[1000], default timeout[2000ms], 6 retries, IPv4
-havn www.bbc.com -p 443 -r 6
+scanr www.bbc.com -p 443 -r 6
 ```
 
 ## 🗑️ Uninstallation
