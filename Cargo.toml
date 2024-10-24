@@ -1,0 +1,55 @@
+[package]
+name = "scanr"
+version = "0.1.0"
+edition = "2021"
+authors = ["Triet Trinh <email@trinhminhtriet.com>"]
+description = "ScanR: A lightweight, fast, and configurable port scanner built in Rust for reliable multi-platform network scanning."
+repository = "https://github.com/trinhminhtriet/scanr"
+homepage = "https://github.com/trinhminhtriet/scanr"
+license = "MIT"
+readme = "README.md"
+keywords = ["docker", "scanr", "port", "scan", "tokio"]
+categories = ["command-line-utilities"]
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+nursery = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+unused_async = "warn"
+unwrap_used = "warn"
+expect_used = "warn"
+todo = "warn"
+module_name_repetitions = "allow"
+doc_markdown = "allow"
+similar_names = "allow"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "4.5", features = ["color", "derive", "unicode"] }
+tokio = { version = "1.40", features = [
+	"macros",
+	"net",
+	"parking_lot",
+	"rt",
+	"rt-multi-thread",
+	"signal",
+	"sync",
+	"time",
+] }
+
+[target.'cfg(windows)'.dependencies]
+os_info = "3.8"
+
+[dev-dependencies]
+warp = "0.3"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+debug = false
+opt-level = "z"
