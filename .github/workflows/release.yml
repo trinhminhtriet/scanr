@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - "v*" # Push events to every tag not containing /
+      - "v*"
   workflow_dispatch:
 
 env:
@@ -24,12 +24,6 @@ jobs:
 
       - name: Build the project
         run: cargo build --release
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-binary
-          path: target/release/
 
   publish:
     needs: build
