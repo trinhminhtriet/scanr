@@ -4,41 +4,75 @@ on:
   push:
     tags:
       - "v*"
-  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  release:
+    name: "Release"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: scanr
+            asset_name: scanr-linux-gnu-amd64
+          - os: windows-latest
+            artifact_name: scanr.exe
+            asset_name: scanr-windows-amd64.exe
+          - os: macos-latest
+            artifact_name: scanr
+            asset_name: scanr-darwin-amd64
     steps:
-      - name: Check out the repository
+      - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Set up Rust
+      - name: Set up Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
+          profile: minimal
           toolchain: stable
+          override: true
+      - name: Build release
+        run: cargo build --release --locked
+      - name: Set prerelease flag (non-Windows)
+        if: runner.os != 'Windows'
+        run: |
+          if [ $(echo ${{ github.ref }} | grep "rc") ]; then
+            echo "PRERELEASE=true" >> $GITHUB_ENV
+            echo "PRERELEASE=true"
+          else
+            echo "PRERELEASE=false" >> $GITHUB_ENV
+            echo "PRERELEASE=false"
+          fi
+          echo $PRERELEASE
+          VERSION=$(echo ${{ github.ref }} | sed 's/refs\/tags\///g')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION=$VERSION"
+      - name: Set prerelease flag (Windows)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $full = "${{ github.ref }}"
 
-      - name: Build the project
-        run: cargo build --release
+          if ( $full -like '*rc*' ) {
+            echo "PRERELEASE=true" >> $env:GITHUB_ENV
+            echo "PRERELEASE=true"
+          } else {
+            echo "PRERELEASE=false" >> $env:GITHUB_ENV
+            echo "PRERELEASE=false"
+          }
 
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
-
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
+          $trimmed = $full -replace 'refs/tags/',''
+          echo "VERSION=$trimmed" >> $env:GITHUB_ENV
+          echo "VERSION=$trimmed"
+      - name: Upload release assets
+        uses: svenstaro/upload-release-action@v2
         with:
-          toolchain: stable
-
-      - name: Publish to crates.io
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish
+          repo_token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+          file: target/release/${{ matrix.artifact_name }}
+          asset_name: ${{ matrix.asset_name }}
+          tag: ${{ github.ref }}
+          prerelease: ${{ env.PRERELEASE }}
+          release_name: "scanr ${{ env.VERSION }}"
+          body: "Please refer to **[CHANGELOG.md](https://github.com/trinhminhtriet/scanr/blob/master/CHANGELOG.md)** for information on this release."
