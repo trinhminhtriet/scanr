@@ -140,7 +140,7 @@ pub mod print {
     }
 
     #[cfg(test)]
-    #[expect(clippy::unwrap_used)]
+    #[allow(clippy::unwrap_used)]
     mod tests {
         use std::{
             collections::HashSet,
