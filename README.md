@@ -18,8 +18,10 @@ To install **scanr**, simply clone the repository and follow the instructions be
 ```bash
 git clone git@github.com:trinhminhtriet/scanr.git
 cd scanr
+
 cargo build --release
-./target/release/scanr --version
+cp ./target/release/scanr /usr/local/bin/
+scanr --version
 ```
 
 Running the below command will globally install the `scanr` binary.
