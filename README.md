@@ -11,6 +11,8 @@
 
 🕵🏻 ScanR: A lightweight, fast, and configurable port scanner built in Rust for reliable multi-platform network scanning.
 
+![ScanR](docs/images/demo.gif)
+
 ## 🚀 Installation
 
 To install **scanr**, simply clone the repository and follow the instructions below:
