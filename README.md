@@ -17,24 +17,40 @@
 
 To install **scanr**, simply clone the repository and follow the instructions below:
 
-```bash
+### Build from source
+
+```sh
 git clone git@github.com:trinhminhtriet/scanr.git
 cd scanr
 
 cargo build --release
-cp ./target/release/scanr /usr/local/bin/
-scanr --version
+rm -rf /usr/local/bin/scanr \
+&& ln -s ${PWD}/target/release/scanr /usr/local/bin/scanr \
+&& which scanr && scanr --version
+```
+
+### Build with Docker
+
+```sh
+docker build -t trinhminhtriet/scanr .
+```
+
+### Run from Docker
+
+```sh
+docker run -it --rm trinhminhtriet/scanr
+docker run -it --rm trinhminhtriet/scanr https://github.com
 ```
 
 Running the below command will globally install the `scanr` binary.
 
-```bash
+```sh
 cargo install scanr
 ```
 
 Optionally, you can add `~/.cargo/bin` to your PATH if it's not already there
 
-```bash
+```sh
 echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
@@ -80,13 +96,13 @@ scanr www.bbc.com -p 443 -r 6
 
 Running the below command will globally uninstall the `scanr` binary.
 
-```bash
+```sh
 cargo uninstall scanr
 ```
 
 Remove the project repo
 
-```bash
+```sh
 rm -rf /path/to/git/clone/scanr
 ```
 
