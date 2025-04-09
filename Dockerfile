@@ -1,4 +1,4 @@
-FROM rust:1.84.0-bookworm AS builder
+FROM rust:1.86.0-bookworm AS builder
 
 # Install dependencies including LLVM 14 first
 RUN apt-get update && apt-get install -y \
@@ -17,9 +17,9 @@ COPY . /app
 
 RUN cargo build --release
 
+# Prod stage
+FROM debian:bookworm-slim
 
-# FROM debian:bookworm-slim
-FROM scratch
 ARG APPLICATION="scanr"
 ARG DESCRIPTION="ScanR: A lightweight, fast, and configurable port scanner built in Rust for reliable multi-platform network scanning."
 ARG PACKAGE="trinhminhtriet/scanr"
@@ -33,4 +33,8 @@ LABEL org.opencontainers.image.ref.name="${PACKAGE}" \
 
 COPY --from=builder /app/target/release/scanr /bin/scanr
 WORKDIR /workdir
-ENTRYPOINT ["scanr"]
+
+# ENTRYPOINT ["scanr"]
+
+# 86400 seconds = 24 hours; # 3600 seconds = 1 hour
+CMD ["bash", "-c", "while true; do sleep 3600; done"]
