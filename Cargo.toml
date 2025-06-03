@@ -41,7 +41,7 @@ tokio = { version = "1.44", features = [
 ] }
 
 [target.'cfg(windows)'.dependencies]
-os_info = "3.10"
+os_info = "3.11"
 
 [dev-dependencies]
 warp = "0.3"
