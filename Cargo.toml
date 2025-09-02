@@ -44,7 +44,7 @@ tokio = { version = "1.47", features = [
 os_info = "3.12"
 
 [dev-dependencies]
-warp = "0.3"
+warp = "0.4"
 
 [profile.release]
 lto = true
